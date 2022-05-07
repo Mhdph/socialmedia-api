@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const { use } = require("express/lib/application");
+const userRoute = require("./router/users");
+const authRoute = require("./router/auth");
 
 const app = express();
 
@@ -18,6 +19,9 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
 
-app.listen(8888, () => {
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
+
+app.listen(6666, () => {
   console.log("Backend is Runing");
 });
