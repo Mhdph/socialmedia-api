@@ -1,18 +1,18 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const userRoute = require("./router/users");
-const authRoute = require("./router/auth");
-const postRoute = require("./router/posts");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import morgan from "morgan";
+import userRoute from "./src/router/users";
+import authRoute from "./src/router/auth";
+import postRoute from "./src/router/posts";
 
 const app = express();
 
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL!)
   .then(() => console.log("Connected to mongodb"))
   .catch((err) => console.log("Could not connect to mongodb"));
 
