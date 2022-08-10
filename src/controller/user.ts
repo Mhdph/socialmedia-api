@@ -1,15 +1,14 @@
-const express = require("express");
-const User = require("../model/User");
-const CryptoJS = require("crypto-js");
+import express, { Request, Response } from "express";
+import User from "../model/User";
+import CryptoJS from "crypto-js";
 
-const router = express.Router();
-//update
-router.put("/:id", async (req, res) => {
+// update User
+export const updateUser = async (req: Request, res: Response) => {
   if (req.body.userId === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       req.body.password = CryptoJS.AES.encrypt(
         req.body.password,
-        process.env.PASS_SEC
+        process.env.PASS_SEC!
       ).toString();
     }
     const user = await User.findByIdAndUpdate(req.params.id, {
@@ -19,20 +18,20 @@ router.put("/:id", async (req, res) => {
   } else {
     return res.status(403).json("you can update only your account");
   }
-});
+};
 
-//delete
-router.delete("/:id", async (req, res) => {
+//delete User
+export const deleteUser = async (req: Request, res: Response) => {
   if (req.body.userId === req.params.id || req.body.isAdmin) {
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json("Account has been deleted");
   } else {
     return res.status(403).json("You can delete only your account!");
   }
-});
+};
 
-//get
-router.get("/", async (req, res) => {
+//get user
+export const getUser = async (req: Request, res: Response) => {
   const userId = req.query.userId;
   const username = req.query.username;
 
@@ -41,9 +40,10 @@ router.get("/", async (req, res) => {
     : await User.findOne({ username: username });
   const { password, updatedAt, ...other } = user._doc;
   res.status(200).json(other);
-});
-//fallow
-router.put("/:id/follow", async (req, res) => {
+};
+
+//follow user
+export const fallow = async (req: Request, res: Response) => {
   if (req.body.userId !== req.params.id) {
     const user = await User.findById(req.params.id);
     const currentUser = await User.findById(req.body.userId);
@@ -57,10 +57,10 @@ router.put("/:id/follow", async (req, res) => {
   } else {
     res.status(403).json("you cant fallow yourself");
   }
-});
+};
 
-//unfollow
-router.put("/:id/unfollow", async (req, res) => {
+//unfollow user
+export const unfollow = async (req: Request, res: Response) => {
   if (req.body.userId !== req.params.id) {
     const user = await User.findById(req.params.id);
     const currentUser = await User.findById(req.body.userId);
@@ -74,6 +74,4 @@ router.put("/:id/unfollow", async (req, res) => {
   } else {
     res.status(403).json("you cant unfallow yourself");
   }
-});
-
-module.exports = router;
+};
