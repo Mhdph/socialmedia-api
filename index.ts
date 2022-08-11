@@ -12,9 +12,9 @@ const app = express();
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO_URL!)
+  .connect(process.env.MONGO_URI!)
   .then(() => console.log("Connected to mongodb"))
-  .catch((err) => console.log("Could not connect to mongodb"));
+  .catch((err) => console.log(err.message));
 
 app.use(express.json());
 app.use(helmet());

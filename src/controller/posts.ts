@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import Post from "../model/Post";
 import User from "../model/User";
-const router = express.Router();
 
 export const createPost = async (req: Request, res: Response) => {
   const newPost = new Post(req.body);

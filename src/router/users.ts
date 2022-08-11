@@ -1,6 +1,4 @@
 import express from "express";
-import User from "../model/User";
-import CryptoJS from "crypto-js";
 import {
   deleteUser,
   fallow,

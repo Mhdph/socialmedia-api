@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import CryptoJS from "crypto-js";
 import User from "../model/User";
-const router = express.Router();
 
 export const register = async (req: Request, res: Response) => {
   const newUser = new User({
